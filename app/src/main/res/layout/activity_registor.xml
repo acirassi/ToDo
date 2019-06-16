@@ -62,7 +62,7 @@
         android:background="@drawable/login_password_edittext"
         android:ems="10"
         android:hint="password"
-        android:inputType="textPersonName"
+        android:inputType="textPassword"
         android:paddingLeft="60dp" />
 
         <EditText
@@ -74,7 +74,7 @@
             android:background="@drawable/login_password_edittext"
             android:ems="10"
             android:hint="confirm password"
-            android:inputType="textPersonName"
+            android:inputType="textPassword"
             android:paddingLeft="60dp" />
 
         <Button
@@ -87,7 +87,7 @@
             android:text="Registor"
             android:textAllCaps="false"
             android:textColor="@color/colorPrimary"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textStyle="italic"
             />
 

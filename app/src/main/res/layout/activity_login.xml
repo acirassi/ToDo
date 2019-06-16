@@ -41,17 +41,21 @@
             android:inputType="textPersonName"
             android:paddingLeft="60dp" />
 
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/login_password_edittext"
-            android:ems="10"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:paddingLeft="60dp" />
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_gravity="center"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/login_password_edittext"
+                android:ems="10"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:paddingLeft="60dp"
+                android:paddingRight="20dp" />
+
+
 
         <Button
             android:id="@+id/btnlogin"
