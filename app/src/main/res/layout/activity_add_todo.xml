@@ -6,11 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".AddTodoActivity">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center_horizontal|center_vertical"
-        android:text="Welcome to add todo." />
+    <EditText
+        android:id="@+id/edt_task"
+        android:layout_width="298dp"
+        android:layout_height="68dp"
+        android:ems="10"
+        android:hint="To do"
+        android:paddingLeft="60dp"
+        android:background="@drawable/login_user_edittext" />
+
+    <Button
+        android:id="@+id/btn_add"
+        android:layout_width="110dp"
+        android:layout_height="65dp"
+        android:background="@drawable/login_button_backgroung2"
+        android:text="Add"
+        android:textSize="20sp" />
 </LinearLayout>
