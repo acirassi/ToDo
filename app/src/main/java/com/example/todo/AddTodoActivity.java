@@ -1,5 +1,6 @@
 package com.example.todo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -57,6 +58,8 @@ public class AddTodoActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(String response) {
                     Log.i("VOLLEY", response);
+                    Intent intent = new Intent(AddTodoActivity.this,HomeActivity.class);
+                    startActivity(intent);
                 }
             }, new Response.ErrorListener() {
                 @Override
