@@ -12,15 +12,16 @@
         <TextView
             android:id="@+id/textTodo"
             android:layout_width="359dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textSize="30sp" />
 
         <CheckBox
             android:id="@+id/done"
-            android:layout_width="72dp"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
 
             android:layout_gravity="center_horizontal|fill_horizontal|center_vertical"

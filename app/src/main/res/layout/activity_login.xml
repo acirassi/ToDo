@@ -24,6 +24,20 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="510dp"
         android:layout_gravity="center"
         android:layout_marginTop="50dp"
@@ -39,21 +53,22 @@
             android:ems="10"
             android:hint="Username"
             android:inputType="textPersonName"
-            android:paddingLeft="60dp" />
+            android:paddingLeft="60dp"
+            android:paddingRight="30dp" />
 
 
             <EditText
                 android:id="@+id/password"
-                android:layout_gravity="center"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
+                android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/login_password_edittext"
                 android:ems="10"
                 android:hint="Password"
                 android:inputType="textPassword"
                 android:paddingLeft="60dp"
-                android:paddingRight="20dp" />
+                android:paddingRight="30dp" />
 
 
 
@@ -87,7 +102,7 @@
                 android:layout_height="wrap_content"
 
                 android:layout_marginLeft="20dp"
-                android:text="Yet not Registor ?"
+                android:text="Not yet Register ?"
                 tools:text="Yet not Registor ? " />
 
             <Button
@@ -103,7 +118,6 @@
 
 
     </LinearLayout>
-
 
 
 </LinearLayout>
