@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -20,13 +19,10 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class AddTodoActivity extends AppCompatActivity {
 
@@ -39,8 +35,9 @@ public class AddTodoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_todo);
 
-        btnAdd = findViewById(R.id.btn_add);
+        btnAdd =findViewById(R.id.btn_add);
         edtTask = findViewById(R.id.edt_task);
+        UID = SharedPrefManager.getUserId();
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +50,7 @@ public class AddTodoActivity extends AppCompatActivity {
     private void addTodo() {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
-            String URL = "https://todoacirassi.000webhostapp.com/api/v1/todo/addtodo/2";
+            String URL = "https://todoacirassi.000webhostapp.com/api/v1/todo/addtodo/"+UID;
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("task", edtTask.getText().toString());
             final String requestBody = jsonBody.toString();
@@ -63,6 +60,7 @@ public class AddTodoActivity extends AppCompatActivity {
                 public void onResponse(String response) {
                     Log.i("VOLLEY", response);
                     Intent intent = new Intent(AddTodoActivity.this,HomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }
             }, new Response.ErrorListener() {
