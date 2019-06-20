@@ -22,6 +22,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -43,14 +44,14 @@ public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private RecyclerView mList;
-
     private LinearLayoutManager linearLayoutManager;
     private DividerItemDecoration dividerItemDecoration;
     private RecyclerView.Adapter adapter;
-
+    private int uid;
     private List<TodoModel> todoList;
+    private String URL;
 
-    private static final String URL_GET_TODO = "https://todoacirassi.000webhostapp.com/api/v1/todos/2";
+    private static final String URL_GET_TODO = "https://todoacirassi.000webhostapp.com/api/v1/todos/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,8 @@ public class HomeActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        uid = SharedPrefManager.getUserId();
+        URL = URL_GET_TODO+uid;
 
 
         mList = findViewById(R.id.todoList);
@@ -67,13 +70,13 @@ public class HomeActivity extends AppCompatActivity
 
         adapter = new TodoAdapter(getApplicationContext(),todoList);
 
-        linearLayoutManager = new LinearLayoutManager(this);
+        /*linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        dividerItemDecoration = new DividerItemDecoration(mList.getContext(), linearLayoutManager.getOrientation());
+        dividerItemDecoration = new DividerItemDecoration(mList.getContext(), linearLayoutManager.getOrientation());*/
 
-        mList.setHasFixedSize(true);
+       /* mList.setHasFixedSize(true);
         mList.setLayoutManager(linearLayoutManager);
-        mList.addItemDecoration(dividerItemDecoration);
+        mList.addItemDecoration(dividerItemDecoration);*/
         mList.setAdapter(adapter);
 
         loadRecyclerViewData();
@@ -101,9 +104,10 @@ public class HomeActivity extends AppCompatActivity
         progressDialog.show();
 
 
-        JsonArrayRequest jsonArrayRequest =new JsonArrayRequest(URL_GET_TODO, new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonArrayRequest =new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+                Toast.makeText(getApplicationContext(),"Lenght is equels"+response.length() +"and uid-"+uid,Toast.LENGTH_LONG).show();
                 for (int i = 0 ; i < response.length() ; i++) {
 
                     try {
@@ -113,6 +117,7 @@ public class HomeActivity extends AppCompatActivity
                         todo.setTask(jsonObject.getString("task"));
                         //todo.setDoneTask(jsonObject.getString("done"));
                         todoList.add(todo);
+                        //progressDialog.dismiss();
 
                     }catch (JSONException e){
                         e.printStackTrace();

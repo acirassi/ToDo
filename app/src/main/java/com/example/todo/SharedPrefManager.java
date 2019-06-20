@@ -49,7 +49,11 @@ public class SharedPrefManager {
                 sharedPreferences.getString(KEY_EMAIL,null)
         );
     }
+    public static int getUserId(){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME,Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(KEY_ID,-1);
 
+    }
     public void logout(){
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME,Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
