@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddTodoActivity">
+
+    <EditText
+        android:id="@+id/edt_task"
+        android:layout_width="298dp"
+        android:layout_height="68dp"
+        android:ems="10"
+        android:hint="To do"
+        android:paddingLeft="60dp"
+        android:background="@drawable/login_user_edittext" />
+
+    <Button
+        android:id="@+id/btn_add"
+        android:layout_width="110dp"
+        android:layout_height="65dp"
+        android:background="@drawable/login_button_backgroung2"
+        android:text="Update"
+        android:textSize="20sp" />
+</LinearLayout>
