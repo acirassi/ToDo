@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -19,23 +20,26 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddTodoActivity extends AppCompatActivity {
 
     Button btnAdd;
     EditText edtTask;
-
+    private int UID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_todo);
 
-        btnAdd =findViewById(R.id.btn_add);
+        btnAdd = findViewById(R.id.btn_add);
         edtTask = findViewById(R.id.edt_task);
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -49,7 +53,7 @@ public class AddTodoActivity extends AppCompatActivity {
     private void addTodo() {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
-            String URL = "https://todoacirassi.000webhostapp.com/api/v1/todo/addtodo/33";
+            String URL = "https://todoacirassi.000webhostapp.com/api/v1/todo/addtodo/2";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("task", edtTask.getText().toString());
             final String requestBody = jsonBody.toString();
