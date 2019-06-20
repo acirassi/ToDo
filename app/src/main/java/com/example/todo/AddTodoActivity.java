@@ -51,64 +51,50 @@ public class AddTodoActivity extends AppCompatActivity {
     }
 
     private void addTodo() {
-        final String task = edtTask.getText().toString();
-        UID = SharedPrefManager.getUserId();
-        String URL = "https://todoacirassi.000webhostapp.com/api/v1/todo/addtodo/" + UID;
-
         try {
-
             RequestQueue requestQueue = Volley.newRequestQueue(this);
+            String URL = "https://todoacirassi.000webhostapp.com/api/v1/todo/addtodo/2";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("task", edtTask.getText().toString());
             final String requestBody = jsonBody.toString();
 
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                 @Override
-
                 public void onResponse(String response) {
                     Log.i("VOLLEY", response);
-                    Toast.makeText(getApplicationContext(),"To-Do added Successfully.",Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(AddTodoActivity.this,HomeActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }
             }, new Response.ErrorListener() {
                 @Override
-
                 public void onErrorResponse(VolleyError error) {
                     Log.e("VOLLEY", error.toString());
                 }
-
             }) {
-
                 @Override
-
                 public String getBodyContentType() {
                     return "application/json; charset=utf-8";
                 }
+
                 @Override
                 public byte[] getBody() throws AuthFailureError {
                     try {
                         return requestBody == null ? null : requestBody.getBytes("utf-8");
-
                     } catch (UnsupportedEncodingException uee) {
                         VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
                         return null;
                     }
-
                 }
+
                 @Override
                 protected Response<String> parseNetworkResponse(NetworkResponse response) {
-
                     String responseString = "";
-
                     if (response != null) {
                         responseString = String.valueOf(response.statusCode);
                         // can get more details such as response.headers
                     }
                     return Response.success(responseString, HttpHeaderParser.parseCacheHeaders(response));
                 }
-
             };
 
             requestQueue.add(stringRequest);
