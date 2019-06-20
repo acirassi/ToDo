@@ -38,7 +38,7 @@ public class AddTodoActivity extends AppCompatActivity {
         btnAdd =findViewById(R.id.btn_add);
         edtTask = findViewById(R.id.edt_task);
 
-        edtTask.setOnClickListener(new View.OnClickListener() {
+        btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addTodo();
@@ -49,7 +49,7 @@ public class AddTodoActivity extends AppCompatActivity {
     private void addTodo() {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
-            String URL = "https://todoacirassi.000webhostapp.com/api/v1/todo/addtodo/2";
+            String URL = "https://todoacirassi.000webhostapp.com/api/v1/todo/addtodo/33";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("task", edtTask.getText().toString());
             final String requestBody = jsonBody.toString();
