@@ -7,7 +7,7 @@
     tools:context=".AddTodoActivity">
 
     <EditText
-        android:id="@+id/edt_task"
+        android:id="@+id/update_task"
         android:layout_width="298dp"
         android:layout_height="68dp"
         android:ems="10"
