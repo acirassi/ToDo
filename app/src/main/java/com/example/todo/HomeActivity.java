@@ -3,6 +3,7 @@ package com.example.todo;
 import android.app.LauncherActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.drm.ProcessedData;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -43,14 +44,15 @@ import java.util.List;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private RecyclerView mList;
-    private LinearLayoutManager linearLayoutManager;
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager layoutManager;
     private DividerItemDecoration dividerItemDecoration;
     private RecyclerView.Adapter adapter;
     private int uid;
     private List<TodoModel> todoList;
     private String URL;
-
+    private RequestQueue rq;
+    ProgressDialog progressDialog;
     private static final String URL_GET_TODO = "https://todoacirassi.000webhostapp.com/api/v1/todos/";
 
     @Override
@@ -62,23 +64,17 @@ public class HomeActivity extends AppCompatActivity
 
         uid = SharedPrefManager.getUserId();
         URL = URL_GET_TODO+uid;
+        Toast.makeText(getApplicationContext(),uid+" "+URL,Toast.LENGTH_LONG).show();
 
+        rq = Volley.newRequestQueue(this);
+        recyclerView = findViewById(R.id.todoList);
 
-        mList = findViewById(R.id.todoList);
-
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
         todoList =new ArrayList<>();
 
-        adapter = new TodoAdapter(getApplicationContext(),todoList);
-
-        /*linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        dividerItemDecoration = new DividerItemDecoration(mList.getContext(), linearLayoutManager.getOrientation());*/
-
-       /* mList.setHasFixedSize(true);
-        mList.setLayoutManager(linearLayoutManager);
-        mList.addItemDecoration(dividerItemDecoration);*/
-        mList.setAdapter(adapter);
-
+        progressDialog = new ProgressDialog(this);
         loadRecyclerViewData();
 
         FloatingActionButton fab = findViewById(R.id.addfab);
@@ -99,71 +95,41 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void loadRecyclerViewData() {
-        final ProgressDialog progressDialog = new ProgressDialog(this );
-        progressDialog.setMessage("Loading Data...");
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Loading...");
+        progressDialog.setMessage("Getting your ToDos...");
+        progressDialog.setCancelable(false);
         progressDialog.show();
-
-
-        JsonArrayRequest jsonArrayRequest =new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, URL, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 Toast.makeText(getApplicationContext(),"Lenght is equels"+response.length() +"and uid-"+uid,Toast.LENGTH_LONG).show();
-                for (int i = 0 ; i < response.length() ; i++) {
+                for(int i=0;i<response.length();i++){
 
-                    try {
+                    TodoModel todoModel = new TodoModel();
+                    try{
                         JSONObject jsonObject = response.getJSONObject(i);
-                        TodoModel todo = new TodoModel();
+                        todoModel.setTask(jsonObject.getString("task"));
+//                        todoModel.setDoneTask(jsonObject.getInt("done"));
 
-                        todo.setTask(jsonObject.getString("task"));
-                        //todo.setDoneTask(jsonObject.getString("done"));
-                        todoList.add(todo);
-                        //progressDialog.dismiss();
-
-                    }catch (JSONException e){
-                        e.printStackTrace();
-                        progressDialog.dismiss();
+                    }catch(JSONException e){
+                        Toast.makeText(getApplicationContext(),"Error:"+e.toString(),Toast.LENGTH_LONG).show();
                     }
+                    todoList.add(todoModel);
+
                 }
+                TodoAdapter adapter = new TodoAdapter(HomeActivity.this,todoList);
+                recyclerView.setAdapter(adapter);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Volley", error.toString());
-                progressDialog.dismiss();
+                    Log.i("Volley Error: ",error.toString());
             }
         });
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(jsonArrayRequest);
-
-        /*StringRequest stringRequest = new StringRequest(Request.Method.GET,
-                URL_GET_TODO,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray array = jsonObject.getJSONArray("");
-
-                            for (int i=0;i<array.length();i++) {
-                                JSONObject o = array.getJSONObject(i);
-
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);*/
+        rq.add(jsonArrayRequest);
+        progressDialog.dismiss();
     }
 
     @Override

@@ -26,16 +26,15 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(context).inflate(R.layout.costom_list_todo,viewGroup,false);
-
-        return new ViewHolder(v);
+        ViewHolder viewHolder = new ViewHolder(v);
+        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         TodoModel todo = list.get(i);
-
         viewHolder.task.setText(todo.getTask());
-        viewHolder.done.setText(String.valueOf(todo.getDoneTask()));
+     //   viewHolder.done.setText(String.valueOf(todo.getDoneTask()));
     }
 
     @Override
@@ -53,7 +52,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
             super(itemView);
 
             task = itemView.findViewById(R.id.textTodo);
-            done = itemView.findViewById(R.id.done);
+            //done = itemView.findViewById(R.id.done);
 
         }
     }
