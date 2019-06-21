@@ -30,7 +30,7 @@ public class AddTodoActivity extends AppCompatActivity {
 
     Button btnAdd;
     EditText edtTask;
-
+    private int UID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +39,7 @@ public class AddTodoActivity extends AppCompatActivity {
 
         btnAdd =findViewById(R.id.btn_update);
         edtTask = findViewById(R.id.edt_task);
+        UID = SharedPrefManager.getUserId();
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +52,7 @@ public class AddTodoActivity extends AppCompatActivity {
     private void addTodo() {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
+          
             String URL = "https://todoacirassi.000webhostapp.com/api/v1/todo/addtodo/";
 
             int uid = SharedPrefManager.getUserId();
@@ -76,6 +78,7 @@ public class AddTodoActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e("VOLLEY", error.toString());
+
                     }
                 }) {
                     @Override

@@ -3,13 +3,13 @@ package com.example.todo;
 public class TodoModel {
 
     private  String task;
-    private  String doneTask;
+    private  int doneTask;
 
     public TodoModel(){
 
     }
 
-    public TodoModel(String task, String doneTask) {
+    public TodoModel(String task, int doneTask) {
         this.task = task;
         this.doneTask = doneTask;
     }
@@ -22,11 +22,11 @@ public class TodoModel {
         this.task = task;
     }
 
-    public String getDoneTask() {
+    public int getDoneTask() {
         return doneTask;
     }
 
-    public void setDoneTask(String doneTask) {
+    public void setDoneTask(int doneTask) {
         this.doneTask = doneTask;
     }
 }
