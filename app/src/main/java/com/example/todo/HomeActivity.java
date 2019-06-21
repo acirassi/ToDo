@@ -4,14 +4,12 @@ import android.app.LauncherActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -53,7 +51,7 @@ public class HomeActivity extends AppCompatActivity
     private List<TodoModel> todoList;
     private String URL;
 
-    private static final String URL_GET_TODO = "https://todoacirassi.000webhostapp.com/api/v1/todos/33";
+    private static final String URL_GET_TODO = "https://todoacirassi.000webhostapp.com/api/v1/todos/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +81,6 @@ public class HomeActivity extends AppCompatActivity
 
         loadRecyclerViewData();
 
-
-
         FloatingActionButton fab = findViewById(R.id.addfab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +104,7 @@ public class HomeActivity extends AppCompatActivity
         progressDialog.show();
 
 
-        JsonArrayRequest jsonArrayRequest =new JsonArrayRequest(URL_GET_TODO, new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonArrayRequest =new JsonArrayRequest(URL, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 Toast.makeText(getApplicationContext(),"Lenght is equels"+response.length() +"and uid-"+uid,Toast.LENGTH_LONG).show();
@@ -226,5 +222,4 @@ public class HomeActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 }
