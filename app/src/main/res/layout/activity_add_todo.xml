@@ -16,7 +16,7 @@
         android:background="@drawable/login_user_edittext" />
 
     <Button
-        android:id="@+id/btn_add"
+        android:id="@+id/btn_update"
         android:layout_width="110dp"
         android:layout_height="65dp"
         android:background="@drawable/login_button_backgroung2"
