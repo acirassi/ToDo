@@ -109,7 +109,7 @@ public class HomeActivity extends AppCompatActivity
 
 
 
-        JsonArrayRequest jsonArrayRequest =new JsonArrayRequest(URL_GET_TODO, new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonArrayRequest =new JsonArrayRequest(Request.Method.GET,URL,null, new Response.Listener<JSONArray>() {
 
             @Override
             public void onResponse(JSONArray response) {
@@ -120,6 +120,7 @@ public class HomeActivity extends AppCompatActivity
                     try{
                         JSONObject jsonObject = response.getJSONObject(i);
                         todoModel.setTask(jsonObject.getString("task"));
+                        todoModel.setTodoid(jsonObject.getInt("todoId"));
 //                        todoModel.setDoneTask(jsonObject.getInt("done"));
 
                     }catch(JSONException e){
