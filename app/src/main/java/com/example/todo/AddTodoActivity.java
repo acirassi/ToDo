@@ -37,7 +37,7 @@ public class AddTodoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_todo);
 
-        btnAdd =findViewById(R.id.btn_update);
+        btnAdd =findViewById(R.id.btn_add);
         edtTask = findViewById(R.id.edt_task);
         UID = SharedPrefManager.getUserId();
 
