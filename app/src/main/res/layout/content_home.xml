@@ -1,25 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".HomeActivity"
-    tools:showIn="@layout/app_bar_home">
-    
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/todoList"
+    tools:showIn="@layout/app_bar_home"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/todolistlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_alignParentLeft="true"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/todoList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/tododoneList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/loadingmeg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:visibility="gone">
+
+
+
+    <ProgressBar
+        android:id="@+id/progressBar3"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="87dp"
+        android:layout_height="76dp"
+        android:layout_alignTop="@+id/todoList"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        >
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="164dp"
+        android:layout_marginTop="288dp"
+        android:layout_marginEnd="160dp"
+        android:layout_marginRight="160dp"
+        android:visibility="visible" />
 
-    </android.support.v7.widget.RecyclerView>
+    <TextView
+        android:id="@+id/loadmeg"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignTop="@+id/todoList"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="111dp"
+        android:layout_marginLeft="111dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="Getting your to-dos..."
+        android:textAllCaps="false"
+        android:textSize="20dp"
+        android:textStyle="normal"
+        android:visibility="visible" />
+    </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

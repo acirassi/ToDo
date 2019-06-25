@@ -62,6 +62,7 @@ public class AddTodoActivity extends AppCompatActivity {
 
             JSONObject jsonBody = new JSONObject();
 
+
             if (!TextUtils.isEmpty(edtTask.getText().toString())){
                 jsonBody.put("task", edtTask.getText().toString());
 
@@ -78,7 +79,6 @@ public class AddTodoActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e("VOLLEY", error.toString());
-
                     }
                 }) {
                     @Override

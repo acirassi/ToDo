@@ -2,6 +2,7 @@ package com.example.todo;
 
 import android.app.LauncherActivity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.drm.ProcessedData;
 import android.os.Bundle;
@@ -12,7 +13,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.Layout;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,9 +28,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
+
+
+import com.android.volley.AuthFailureError;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -35,6 +43,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
@@ -45,26 +55,36 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private RecyclerView recyclerView;
-    private RecyclerView.LayoutManager layoutManager;
-    private DividerItemDecoration dividerItemDecoration;
-    private RecyclerView.Adapter adapter;
-    private TodoAdapter todoAdapter;
+
+    private RecyclerView recyclerView,recyclerView2;
+    private RecyclerView.LayoutManager layoutManager,layoutManager2;
+   // private RecyclerView.Adapter adapter,doneadapter;
     private int uid;
-    private int todoId;
-    private List<TodoModel> todoList;
-    //TodoModel todoModel = new TodoModel();
+    private List<TodoModel> todoList,todoDoneList;
+
     private String URL;
     private String URL_DELETE;
 
     private RequestQueue rq;
-    ProgressDialog progressDialog;
+    ProgressBar progressBar;
+    TextView megload;
+    CheckBox checkdone;
+    LinearLayout listlayout,loadinglayout;
+
+    private static HomeActivity mIntance;
+    private static Context mCtx;
+
+
+
     private static final String URL_GET_TODO = "https://todoacirassi.000webhostapp.com/api/v1/todos/";
     private  static  final String URL_DELETE_TODO = "https://todoacirassi.000webhostapp.com/api/v1/todo/delete/";
 
@@ -78,20 +98,29 @@ public class HomeActivity extends AppCompatActivity
 
         uid = SharedPrefManager.getUserId();
         URL = URL_GET_TODO+uid;
-        //Toast.makeText(getApplicationContext(),uid+" "+URL,Toast.LENGTH_LONG).show();
 
-
-
+        listlayout =  findViewById(R.id.todolistlayout);
+        loadinglayout =findViewById(R.id.loadingmeg);
 
         rq = Volley.newRequestQueue(this);
+
         recyclerView = findViewById(R.id.todoList);
+        recyclerView2 = findViewById(R.id.tododoneList);
 
-        recyclerView.setHasFixedSize(true);
+        checkdone = findViewById(R.id.checkdone);
+        recyclerView.setHasFixedSize(true);recyclerView2.setHasFixedSize(true);
+
         layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        todoList =new ArrayList<>();
+        layoutManager2 = new LinearLayoutManager(this);
 
-        progressDialog = new ProgressDialog(this);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView2.setLayoutManager(layoutManager2);
+
+        todoList =new ArrayList<>();
+        todoDoneList =new ArrayList<>();
+
+        progressBar = findViewById(R.id.progressBar3);
+        megload = findViewById(R.id.loadmeg);
         loadRecyclerViewData();
 
 
@@ -113,23 +142,15 @@ public class HomeActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
-    }
 
-    private void loadRecyclerViewData() {
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Loading...");
-        progressDialog.setMessage("Getting your ToDos...");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-
-
-
-        JsonArrayRequest jsonArrayRequest =new JsonArrayRequest(Request.Method.GET,URL,null, new Listener<JSONArray>() {
-
-            @Override
+        navigationView.setNavigationItemSelectedListener(t
+    public void loadRecyclerViewData() {
+       listlayout.setVisibility(View.GONE);
+       loadinglayout.setVisibility(View.VISIBLE);
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, URL, null, new Response.Listener<JSONArray>() { @Override
             public void onResponse(JSONArray response) {
-                //Toast.makeText(getApplicationContext(),"Lenght is equels"+response.length() +"and uid-"+uid,Toast.LENGTH_LONG).show();
+              //  Toast.makeText(getApplicationContext(),"Lenght is equels"+response.length() +"and uid-"+uid,Toast.LENGTH_LONG).show();
+
                 for(int i=0;i<response.length();i++){
 
                     TodoModel todoModel = new TodoModel();
@@ -137,16 +158,27 @@ public class HomeActivity extends AppCompatActivity
                         JSONObject jsonObject = response.getJSONObject(i);
                         todoModel.setTask(jsonObject.getString("task"));
                         todoModel.setTodoid(jsonObject.getInt("todoId"));
-//                        todoModel.setDoneTask(jsonObject.getInt("done"));
+                        todoModel.setDoneTask(jsonObject.getInt("done"));
 
                     }catch(JSONException e){
                         Toast.makeText(getApplicationContext(),"Error:"+e.toString(),Toast.LENGTH_LONG).show();
                     }
-                    todoList.add(todoModel);
+                    if(todoModel.getDoneTask() == 1){
+                        todoDoneList.add(todoModel);
+                    }else{
+                        todoList.add(todoModel);
+                    }
 
                 }
                 TodoAdapter adapter = new TodoAdapter(HomeActivity.this,todoList);
+                DoneToDoAdapter adapter2 = new DoneToDoAdapter(HomeActivity.this,todoDoneList);
+
                 recyclerView.setAdapter(adapter);
+                recyclerView2.setAdapter(adapter2);
+                listlayout.setVisibility(View.VISIBLE);
+                loadinglayout.setVisibility(View.GONE);
+
+
             }
         },new Response.ErrorListener() {
             @Override
@@ -156,6 +188,7 @@ public class HomeActivity extends AppCompatActivity
         });
 
         rq.add(jsonArrayRequest);
+        
         progressDialog.dismiss();
 
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
@@ -199,6 +232,7 @@ public class HomeActivity extends AppCompatActivity
             }
         });
         requestQueue.add(jsonArrayRequest);
+
     }
 
 
@@ -228,7 +262,11 @@ public class HomeActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Toast.makeText(getApplicationContext(),"Settingd selected.",Toast.LENGTH_LONG).show();
             return true;
+        }else if(id == R.id.action_logout){
+            SharedPrefManager.getInstance(getApplicationContext()).logout();
+
         }
 
         return super.onOptionsItemSelected(item);
