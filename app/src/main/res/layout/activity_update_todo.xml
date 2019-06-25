@@ -4,11 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="10dp"
     tools:context=".AddTodoActivity">
 
     <EditText
         android:id="@+id/update_task"
-        android:layout_width="286dp"
+        android:layout_width="match_parent"
         android:layout_height="68dp"
         android:layout_margin="10dp"
         android:background="@drawable/login_button_background"
@@ -16,12 +19,19 @@
         android:hint="To do"
         android:paddingLeft="30dp" />
 
-    <Button
+    <LinearLayout
+        android:layout_width="120dp"
+        android:layout_height="80dp"
+        android:orientation="horizontal">
 
-        android:id="@+id/btn_update"
-        android:layout_width="110dp"
-        android:layout_height="65dp"
-        android:background="@drawable/login_button_background2"
-        android:text="Update"
-        android:textSize="20sp" />
+        <Button
+
+            android:id="@+id/btn_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/login_button_background2"
+            android:text="Update"
+            android:textSize="20sp" />
+    </LinearLayout>
 </LinearLayout>

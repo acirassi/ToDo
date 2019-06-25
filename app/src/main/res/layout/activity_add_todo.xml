@@ -5,12 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
+    android:gravity="center"
+    android:orientation="vertical"
     android:padding="10dp"
     tools:context=".AddTodoActivity">
 
     <EditText
         android:id="@+id/edt_task"
-        android:layout_width="286dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_margin="10dp"
         android:layout_marginLeft="20dp"
@@ -22,7 +24,7 @@
     <Button
 
         android:id="@+id/btn_add"
-        android:layout_width="wrap_content"
+        android:layout_width="102dp"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"

@@ -97,10 +97,10 @@ public class HomeActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         uid = SharedPrefManager.getUserId();
-        URL = URL_GET_TODO+uid;
+        URL = URL_GET_TODO + uid;
 
-        listlayout =  findViewById(R.id.todolistlayout);
-        loadinglayout =findViewById(R.id.loadingmeg);
+        listlayout = findViewById(R.id.todolistlayout);
+        loadinglayout = findViewById(R.id.loadingmeg);
 
         rq = Volley.newRequestQueue(this);
 
@@ -108,7 +108,8 @@ public class HomeActivity extends AppCompatActivity
         recyclerView2 = findViewById(R.id.tododoneList);
 
         checkdone = findViewById(R.id.checkdone);
-        recyclerView.setHasFixedSize(true);recyclerView2.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(true);
+        recyclerView2.setHasFixedSize(true);
 
         layoutManager = new LinearLayoutManager(this);
         layoutManager2 = new LinearLayoutManager(this);
@@ -116,23 +117,19 @@ public class HomeActivity extends AppCompatActivity
         recyclerView.setLayoutManager(layoutManager);
         recyclerView2.setLayoutManager(layoutManager2);
 
-        todoList =new ArrayList<>();
-        todoDoneList =new ArrayList<>();
+        todoList = new ArrayList<>();
+        todoDoneList = new ArrayList<>();
 
         progressBar = findViewById(R.id.progressBar3);
         megload = findViewById(R.id.loadmeg);
         loadRecyclerViewData();
 
 
-
-
-
-
         FloatingActionButton fab = findViewById(R.id.addfab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(HomeActivity.this,AddTodoActivity.class);
+                Intent i = new Intent(HomeActivity.this, AddTodoActivity.class);
                 startActivity(i);
             }
         });
@@ -142,8 +139,8 @@ public class HomeActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
-        navigationView.setNavigationItemSelectedListener(t
+    navigationView.setNavigationItemSelectedListener(this);
+    }
     public void loadRecyclerViewData() {
        listlayout.setVisibility(View.GONE);
        loadinglayout.setVisibility(View.VISIBLE);
