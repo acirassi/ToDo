@@ -10,7 +10,8 @@ public class TodoModel {
 
     }
 
-    public TodoModel(String task, int doneTask) {
+    public TodoModel(int todoid,String task, int doneTask) {
+        this.todoid = todoid;
         this.task = task;
         this.doneTask = doneTask;
     }

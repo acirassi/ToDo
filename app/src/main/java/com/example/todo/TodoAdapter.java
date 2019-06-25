@@ -40,6 +40,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
     }
 
     @Override
+
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
         final TodoModel todo = list.get(i);
         todoid = ""+ todo.getTodoid();
@@ -67,7 +68,6 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
             }
         });
 
-
     }
 
     @Override
@@ -75,18 +75,24 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
         return list.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView task,tid;
         public CheckBox done;
 
+        OnTodoListerner onTodoListerner;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
 
             task = itemView.findViewById(R.id.textTodo);
             done = itemView.findViewById(R.id.checkdone);
 
         }
+    }
+
+    public interface OnTodoListerner{
+        void onTodoClick(int position);
     }
 }
