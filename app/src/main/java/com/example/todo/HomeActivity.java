@@ -6,12 +6,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.drm.ProcessedData;
 import android.os.Bundle;
+import android.support.annotation.IntegerRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Layout;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -31,16 +34,20 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.android.volley.AuthFailureError;
+
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -57,12 +64,15 @@ import java.util.Map;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+
     private RecyclerView recyclerView,recyclerView2;
     private RecyclerView.LayoutManager layoutManager,layoutManager2;
    // private RecyclerView.Adapter adapter,doneadapter;
     private int uid;
     private List<TodoModel> todoList,todoDoneList;
+
     private String URL;
+    private String URL_DELETE;
 
     private RequestQueue rq;
     ProgressBar progressBar;
@@ -76,6 +86,7 @@ public class HomeActivity extends AppCompatActivity
 
 
     private static final String URL_GET_TODO = "https://todoacirassi.000webhostapp.com/api/v1/todos/";
+    private  static  final String URL_DELETE_TODO = "https://todoacirassi.000webhostapp.com/api/v1/todo/delete/";
 
 
     @Override
@@ -114,6 +125,9 @@ public class HomeActivity extends AppCompatActivity
 
 
 
+
+
+
         FloatingActionButton fab = findViewById(R.id.addfab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,6 +142,7 @@ public class HomeActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
         navigationView.setNavigationItemSelectedListener(t
     public void loadRecyclerViewData() {
        listlayout.setVisibility(View.GONE);
@@ -135,6 +150,7 @@ public class HomeActivity extends AppCompatActivity
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, URL, null, new Response.Listener<JSONArray>() { @Override
             public void onResponse(JSONArray response) {
               //  Toast.makeText(getApplicationContext(),"Lenght is equels"+response.length() +"and uid-"+uid,Toast.LENGTH_LONG).show();
+
                 for(int i=0;i<response.length();i++){
 
                     TodoModel todoModel = new TodoModel();
@@ -164,7 +180,7 @@ public class HomeActivity extends AppCompatActivity
 
 
             }
-        }, new Response.ErrorListener() {
+        },new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                     Log.i("Volley Error: ",error.toString());
@@ -172,6 +188,51 @@ public class HomeActivity extends AppCompatActivity
         });
 
         rq.add(jsonArrayRequest);
+        
+        progressDialog.dismiss();
+
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
+
+
+    }
+
+    ItemTouchHelper.SimpleCallback itemTouchHelperCallback  = new ItemTouchHelper.SimpleCallback(0 ,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT ) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+
+            final TodoModel todo = todoList.get(viewHolder.getAdapterPosition());
+            URL_DELETE = URL_DELETE_TODO + todo.getTodoid();
+            Toast.makeText(getApplicationContext(), URL_DELETE , Toast.LENGTH_LONG).show();
+            todoList.remove(viewHolder.getAdapterPosition());
+            //todoAdapter.notifyDataSetChanged();
+            todoDelete();
+        }
+
+    };
+
+    private void todoDelete() {
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET , URL_DELETE, null, new Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                Toast.makeText(getApplicationContext() , "" , Toast.LENGTH_LONG).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext() , "Delete Successfuly" , Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(intent);
+            }
+        });
+        requestQueue.add(jsonArrayRequest);
+
     }
 
 

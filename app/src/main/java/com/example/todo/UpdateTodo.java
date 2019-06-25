@@ -49,7 +49,7 @@ public class UpdateTodo extends AppCompatActivity {
         todoid = (int) getIntent().getIntExtra("todoid", 0);
 
         String task = getIntent().getStringExtra("task");
-        if (task != null){
+        if (task != null ){
             Toast.makeText(this, "task is " + task , Toast.LENGTH_LONG).show();
         }else  Toast.makeText(this, "can't get intent extra..." , Toast.LENGTH_LONG).show();
 
