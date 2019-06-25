@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
                 context.startActivity(intent);
             }
         });
+
     }
 
     @Override
@@ -62,7 +64,6 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
         public TextView task;
         public CheckBox done;
 
-        OnTodoListerner onTodoListerner;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -74,7 +75,5 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
         }
     }
 
-    public interface OnTodoListerner{
-        void onTodoClick(int position);
-    }
+
 }
