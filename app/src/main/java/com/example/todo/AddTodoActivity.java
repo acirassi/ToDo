@@ -52,6 +52,11 @@ public class AddTodoActivity extends AppCompatActivity {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
             String URL = "https://todoacirassi.000webhostapp.com/api/v1/todo/addtodo/"+UID;
             JSONObject jsonBody = new JSONObject();
+            if(edtTask.getText().toString().equals("")){
+                edtTask.setError("Please add Task.");
+                edtTask.setFocusable(true);
+                return;
+            }
             jsonBody.put("task", edtTask.getText().toString());
             final String requestBody = jsonBody.toString();
 

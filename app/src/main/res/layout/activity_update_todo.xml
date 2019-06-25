@@ -19,7 +19,7 @@
         android:id="@+id/btn_add"
         android:layout_width="110dp"
         android:layout_height="65dp"
-        android:background="@drawable/login_button_backgroung2"
+        android:background="@drawable/login_button_background2"
         android:text="Update"
         android:textSize="20sp" />
 </LinearLayout>

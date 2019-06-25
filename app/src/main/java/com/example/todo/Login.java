@@ -44,7 +44,9 @@ ProgressBar loading;
         if(SharedPrefManager.getInstance(this).isLoggedIn()){
 
             Intent i = new Intent(getApplicationContext(),HomeActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
+            finish();
         }
 
     }
@@ -90,7 +92,7 @@ ProgressBar loading;
             @Override
             public void onResponse(String response) {
                 loading.setVisibility(View.VISIBLE);
-                btnlogin.setVisibility(View.GONE);
+
                 Toast.makeText(getApplicationContext(),User.LOGIN_URL+username,Toast.LENGTH_LONG).show();
                 try{
 
@@ -112,9 +114,10 @@ ProgressBar loading;
                         Toast.makeText(getApplicationContext(),"Login Successfully.",Toast.LENGTH_LONG).show();
 
                         finish();
-                        startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+                        startActivity(new Intent(getApplicationContext(),HomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                     }else{
-                        Toast.makeText(getApplicationContext(),object.getString("Invalid Username or Password."),Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),"Invalid Username or Password.",Toast.LENGTH_LONG).show();
+                        loading.setVisibility(View.GONE);
 
                     }
 
