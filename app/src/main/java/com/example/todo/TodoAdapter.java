@@ -70,6 +70,17 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
                context.startActivity(new Intent(context,HomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }
         });
+        
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(context, "task is " + todo.getTask() , Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(context , UpdateTodo.class);
+                intent.putExtra("task" , todo.getTask());
+                intent.putExtra("todoid", todo.getTodoid());
+                context.startActivity(intent);
+            }
+        });
 
     }
 
